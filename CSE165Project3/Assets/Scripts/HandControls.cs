@@ -9,7 +9,9 @@ public class HandControls : MonoBehaviour {
     float HandPalmPitch;
     float HandPalmYaw;
     float HandPalmRoll;
-    float HandWristRot; 
+    float HandWristRot;
+
+    private Hand leftHand, rightHand;
 
 
 	// Use this for initialization
@@ -30,57 +32,98 @@ public class HandControls : MonoBehaviour {
 
         if (frame.Hands.Count > 0)
         {
-            //Hand firstHand = hands[0];
 
+            if (hands[0].IsRight) {
 
-            //x
-            HandPalmPitch = hands[0].PalmNormal.Pitch;
-            //y
-            HandPalmRoll = hands[0].PalmNormal.Roll;
-            //z
-            HandPalmYaw = hands[0].PalmNormal.Yaw;
-            HandWristRot = hands[0].WristPosition.Pitch;
+                rightHand = hands[0];
 
-           
-
-            if (HandPalmYaw > 0)
+            } else if (hands[0].IsLeft)
             {
-                //transform.Translate(new Vector3(Time.deltaTime, 0, 0));
-
-                //transform.Rotate(0,0,-20*Time.deltaTime);
-            }
-            else if (HandPalmYaw < 0)
-            {
-                //transform.Translate(new Vector3(Time.deltaTime*-1, 0, 0));
-
-                //transform.Rotate(0, 0, 20*Time.deltaTime);
+                leftHand = hands[0];
             }
 
-            if (HandPalmPitch > 1)
+            if ((frame.Hands.Count > 1) && (hands[1].IsRight))
             {
-                //transform.Translate(new Vector3(0, Time.deltaTime, 0));
-                transform.Rotate(-20 * Time.deltaTime, 0, 0);
+                rightHand = hands[1];
+
+            } else if ((frame.Hands.Count > 1) && (hands[1].IsLeft))
+            {
+                leftHand = hands[1];
             }
-            else if (HandPalmPitch < -1)
+
+
+            if (leftHand != null)
             {
-                transform.Rotate(20 * Time.deltaTime, 0, 0);
-                //transform.Translate(new Vector3(0, Time.deltaTime * -1, 0));
+
+
+                //between 0 and 1
+                float speed = leftHand.GrabAngle;
+                speed = speed / (Mathf.PI);
+
+                transform.Translate(new Vector3(0, 0, speed / 10));
+
+            }
+
+
+
+
+
+
+
+            if (rightHand != null)
+            {
+
+
+
+                //check for closed fist
+                if (rightHand.GrabAngle > ((Mathf.PI) * 0.75f))
+                {
+
+
+                    return;
+                }
+
+
+                //x
+                HandPalmPitch = rightHand.PalmNormal.Pitch;
+                //y
+                HandPalmRoll = rightHand.PalmNormal.Roll;
+                //z
+                HandPalmYaw = rightHand.PalmNormal.Yaw;
+                HandWristRot = rightHand.WristPosition.Pitch;
+
+
+
+
+                //turn left/right
+                if (HandPalmPitch > 1)
+                {
+                    transform.Rotate(-20 * Time.deltaTime, 0, 0);
+                }
+                else if (HandPalmPitch < -1)
+                {
+                    transform.Rotate(20 * Time.deltaTime, 0, 0);
+                }
+
+                //turn up/down
+                if (HandPalmRoll > 1.5)
+                {
+                    transform.Rotate(0, 20 * Time.deltaTime, 0);
+                }
+                else if (HandPalmRoll < -0.5)
+                {
+                    transform.Rotate(0, -20 * Time.deltaTime, 0);
+                }
+
+
+
             }
 
             
-            if (HandPalmRoll > 1)
-            {
-                //transform.Translate(new Vector3(Time.deltaTime, 0, 0));
 
-                transform.Rotate(0, 20 * Time.deltaTime, 0);
-            }
-            else if (HandPalmRoll < -1)
-            {
-                //transform.Translate(new Vector3(Time.deltaTime * -1, 0, 0));
 
-                transform.Rotate(0, -20 * Time.deltaTime, 0);
-            }
-            
+
+
 
         }
 
