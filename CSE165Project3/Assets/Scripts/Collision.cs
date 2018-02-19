@@ -27,8 +27,20 @@ public class Collision : MonoBehaviour {
         if (col.transform.parent.gameObject.CompareTag("campus"))
         {
             Debug.Log("Collision with campus");
-            this.transform.position = lastPos;
-            this.transform.rotation = lastRot;
+            GetComponent<Gameplay>().ResetCheckpoint();
+          
+
+        } else if (col.transform.parent.gameObject.CompareTag("checkpoint"))
+        {
+            //check if we hit the right checkpoint
+            if (col.gameObject == GetComponent<Gameplay>().checkPoint.transform.parent.GetChild(GetComponent<Gameplay>().currIndex+1).gameObject)
+            {
+                Debug.Log("Hit goal");
+                GetComponent<Gameplay>().NewCheckPoint();
+
+            }
+
+
         }
     }
 }
