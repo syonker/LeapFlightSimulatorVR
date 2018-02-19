@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Leap;
+using System.IO;
 
 public class HandControls : MonoBehaviour {
 
@@ -14,12 +15,68 @@ public class HandControls : MonoBehaviour {
     private Hand leftHand, rightHand;
 
 
+    public GameObject checkPoint;
+
+
 	// Use this for initialization
 	void Start () {
-       
-        
-		
+
+        Parse();
+
 	}
+
+
+    void Parse()
+    {
+
+        float x, y, z;
+
+        string path = "Assets/file2.txt";
+
+        StreamReader reader = new StreamReader(path);
+
+        for (int i = 0; i < 100; i++)
+        {
+
+            string line = reader.ReadLine();
+
+            if (line != null)
+            {
+
+                string[] nums;
+
+                char[] temp = null;
+
+                nums = line.Split(temp, 3);
+
+                //Debug.Log(nums[2]);
+                x = float.Parse(nums[0]);
+                y = float.Parse(nums[1]);
+                z = float.Parse(nums[2]);
+
+                x /= 39.3701f;
+                y /= 39.3701f;
+                z /= 39.3701f;
+
+
+
+                GameObject newObj = Instantiate(checkPoint, checkPoint.transform.parent, true);
+
+                newObj.transform.position = new Vector3(x,y,z);
+                newObj.SetActive(true);
+
+
+
+            } else
+            {
+
+                break;
+            }
+
+
+        }
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
