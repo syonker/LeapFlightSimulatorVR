@@ -10,6 +10,9 @@ public class HandControls : MonoBehaviour {
     float HandPalmPitch;
     float HandPalmYaw;
     float HandPalmRoll;
+
+    private bool changeView = false;
+
     //float HandWristRot;
 
     private Hand leftHand, rightHand;
@@ -54,6 +57,35 @@ public class HandControls : MonoBehaviour {
                 else if ((frame.Hands.Count > 1) && (hands[1].IsLeft))
                 {
                     leftHand = hands[1];
+                }
+
+
+
+
+                if (leftHand != null && rightHand != null)
+                {
+
+                   // Debug.Log("Mag: " + (rightHand.PalmPosition - leftHand.PalmPosition).Magnitude);
+
+                    if ((rightHand.PalmPosition - leftHand.PalmPosition).Magnitude < 100) {
+
+                        if (!changeView)
+                        {
+
+                            //Debug.Log("Change View");
+
+                            GetComponent<Gameplay>().ChangeView();
+
+                            changeView = true;
+
+                        }
+
+                    } else
+                    {
+                        changeView = false;
+
+                    }
+
                 }
 
 

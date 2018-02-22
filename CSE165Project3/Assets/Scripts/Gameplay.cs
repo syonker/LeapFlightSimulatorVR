@@ -11,6 +11,8 @@ public class Gameplay : MonoBehaviour {
     public int currIndex;
     public GameObject currCheckpoint;
 
+    private int currView = 0;
+
     public GameObject rig;
 
     public GameObject plane;
@@ -107,13 +109,15 @@ public class Gameplay : MonoBehaviour {
         currCheckpoint.GetComponent<MeshRenderer>().material = hitMaterial;
         checkPoint.transform.parent.GetChild(2).gameObject.GetComponent<MeshRenderer>().material = nextMaterial;
 
+        //checkPoint.transform.parent.GetChild(2).gameObject.GetComponent<AudioSource>().mute = false;
+
         numCheckpoints = i;
         Debug.Log(numCheckpoints);
 
         this.transform.position = checkPoint.transform.parent.GetChild(1).transform.position;
 
 
-
+        plane.SetActive(false);
         //add offset for 3rd person
         //Vector3 offset = new Vector3(0,5.0f,-20.0f);
 
@@ -121,7 +125,7 @@ public class Gameplay : MonoBehaviour {
         //rig.transform.position = rig.transform.position + offset;
         //displays.transform.position = displays.transform.position + offset;
 
-        
+
 
 
 
@@ -203,6 +207,76 @@ public class Gameplay : MonoBehaviour {
 
     }
 
+
+    public void ChangeView()
+    {
+
+        if (currView < 2)
+        {
+            currView++;
+        }
+        else
+        {
+            currView = 0;
+        }
+
+
+        //nothing
+        if (currView == 0)
+        {
+
+            //add offset for 3rd person
+            Vector3 offset = new Vector3(0.0f, 0.0f, 0.0f);
+
+            Vector3 shiftBack = -plane.transform.forward;
+            Vector3 shiftUp = plane.transform.up;
+
+            offset = 20.0f * shiftBack + 5.0f * shiftUp;
+
+            rig.transform.position = rig.transform.position - offset;
+            displays.transform.position = displays.transform.position - offset;
+
+            plane.SetActive(false);
+
+
+
+        }
+        //cockpit
+        else if (currView == 1)
+        {
+            plane.SetActive(true);
+
+
+        }
+        //3rd person
+        else if (currView == 2)
+        {
+
+            //add offset for 3rd person
+            //Vector3 offset = new Vector3(0,5.0f,-20.0f);
+            Vector3 offset = new Vector3(0.0f, 0.0f, 0.0f);
+
+            Vector3 shiftBack = -plane.transform.forward;
+            Vector3 shiftUp = plane.transform.up;
+
+            offset = 20.0f * shiftBack + 5.0f * shiftUp;
+
+            rig.transform.position = rig.transform.position + offset;
+            displays.transform.position = displays.transform.position + offset;
+
+
+        }
+        else
+        {
+
+            Debug.Log("ERRRROORR");
+        }
+
+
+
+    }
+
+
     public void NewCheckPoint()
     {
 
@@ -218,8 +292,11 @@ public class Gameplay : MonoBehaviour {
         currIndex++;
         currCheckpoint = checkPoint.transform.parent.GetChild(currIndex).gameObject;
         currCheckpoint.GetComponent<MeshRenderer>().material = hitMaterial;
+        //currCheckpoint.GetComponent<AudioSource>().mute = true;
 
         checkPoint.transform.parent.GetChild(currIndex+1).gameObject.GetComponent<MeshRenderer>().material = nextMaterial;
+
+        //checkPoint.transform.parent.GetChild(currIndex + 1).gameObject.GetComponent<AudioSource>().mute = false;
 
         line.SetPosition(1, checkPoint.transform.parent.GetChild(currIndex + 1).gameObject.transform.position);
 
