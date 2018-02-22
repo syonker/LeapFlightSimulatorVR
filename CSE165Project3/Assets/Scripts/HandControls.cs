@@ -8,7 +8,7 @@ public class HandControls : MonoBehaviour {
 
     Controller controller;
     float HandPalmPitch;
-    //float HandPalmYaw;
+    float HandPalmYaw;
     float HandPalmRoll;
     //float HandWristRot;
 
@@ -91,15 +91,15 @@ public class HandControls : MonoBehaviour {
 
                     //x
                     HandPalmPitch = rightHand.PalmNormal.Pitch;
-                    //y
-                    HandPalmRoll = rightHand.PalmNormal.Roll;
                     //z
-                    //HandPalmYaw = rightHand.PalmNormal.Yaw;
+                    HandPalmRoll = rightHand.PalmNormal.Roll;
+                    //y
+                    HandPalmYaw = rightHand.PalmNormal.Yaw;
                     //HandWristRot = rightHand.WristPosition.Pitch;
 
 
 
-
+                    /*
                     //turn left/right
                     if (HandPalmPitch > 1)
                     {
@@ -109,17 +109,73 @@ public class HandControls : MonoBehaviour {
                     {
                         transform.Rotate(20 * Time.deltaTime, 0, 0);
                     }
+                    */
 
-                    //turn up/down
-                    if (HandPalmRoll > 1.5)
+                    if (rightHand.PinchStrength < 0.9f)
                     {
-                        transform.Rotate(0, 20 * Time.deltaTime, 0);
-                    }
-                    else if (HandPalmRoll < -0.5)
-                    {
-                        transform.Rotate(0, -20 * Time.deltaTime, 0);
-                    }
+                        
+                            //turn up/down
+                            if (HandPalmPitch > 1.5)
+                            {
+                                transform.Rotate(-20 * Time.deltaTime, 0, 0);
+                            }
+                            else if (HandPalmPitch < -0.5)
+                            {
+                                transform.Rotate(20 * Time.deltaTime, 0, 0);
+                            }
+                            
 
+                    }
+                    else
+                    {
+
+
+                        if (HandPalmYaw > 1.5)
+                        {
+                            transform.Rotate(0, 20 * Time.deltaTime, 0);
+                        }
+                        else if (HandPalmYaw < -0.5)
+                        {
+                            transform.Rotate(0, -20 * Time.deltaTime, 0);
+                        }
+
+                    }
+                    
+                
+
+
+
+
+                    /*
+                    if (Mathf.Abs(HandPalmRoll) > Mathf.Abs(HandPalmPitch))
+                    {
+
+                        //turn left/right
+                        if (HandPalmRoll > 1)
+                        {
+                            transform.Rotate(0, 20 * Time.deltaTime, 0);
+                        }
+                        else if (HandPalmRoll < -1)
+                        {
+                            transform.Rotate(0, -20 * Time.deltaTime, 0);
+                        }
+
+                    }
+                    */
+                    /* else
+                     {
+
+                         //turn up/down
+                         if (HandPalmPitch > 1.5)
+                         {
+                             transform.Rotate(20 * Time.deltaTime, 0, 0);
+                         }
+                         else if (HandPalmPitch < -0.5)
+                         {
+                             transform.Rotate(-20 * Time.deltaTime, 0, 0);
+                         }
+
+                     }*/
 
 
                 }

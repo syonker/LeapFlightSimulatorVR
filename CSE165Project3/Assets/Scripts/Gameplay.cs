@@ -11,6 +11,8 @@ public class Gameplay : MonoBehaviour {
     public int currIndex;
     public GameObject currCheckpoint;
 
+    public GameObject arrow;
+
     public Text gameTimer;
     public Text countdownTimer;
     public Text distance;
@@ -107,6 +109,10 @@ public class Gameplay : MonoBehaviour {
 
         Vector3 heading = child2Pos - child1Pos;
 
+        heading.Normalize();
+
+        heading.y = 0;
+
         this.transform.forward = heading;
 
         line.SetPosition(0, this.transform.position);
@@ -145,6 +151,27 @@ public class Gameplay : MonoBehaviour {
     {
 
         this.transform.position = currCheckpoint.transform.position;
+
+        Vector3 heading = this.transform.forward;
+        heading.y = 0;
+
+        this.transform.forward = heading;
+
+        //draw the line from the player to the next checkpoint
+        line.SetPosition(0, this.transform.position);
+
+        //adjust arrow direction
+        Vector3 goal = line.GetPosition(1) - line.GetPosition(0);
+
+        //rotate so that z is goal
+        arrow.transform.forward = goal;
+
+
+        float dist = (checkPoint.transform.parent.GetChild(currIndex + 1).gameObject.transform.position - this.transform.position).magnitude;
+
+        distance.text = "Distance: \n" + dist + "m";
+
+
         countdown = true;
         Countdown();
 
@@ -179,20 +206,29 @@ public class Gameplay : MonoBehaviour {
 
         gameTime += Time.deltaTime;
 
-        gameTimer.text = "Time: " + gameTime.ToString();
+        gameTimer.text = "Time: \n" + gameTime.ToString() + "s";
 
         if (countdown)
         {
             Countdown();
+
+            return;
         }
 
 
         //draw the line from the player to the next checkpoint
         line.SetPosition(0, this.transform.position);
 
+        //adjust arrow direction
+        Vector3 goal = line.GetPosition(1) - line.GetPosition(0);
+
+        //rotate so that z is goal
+        arrow.transform.forward = goal;
+
+
         float dist = (checkPoint.transform.parent.GetChild(currIndex + 1).gameObject.transform.position - this.transform.position).magnitude;
 
-        distance.text = "Distance: " + dist + "units";
+        distance.text = "Distance: \n" + dist + "m";
 
 
 	}
