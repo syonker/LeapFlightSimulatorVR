@@ -11,6 +11,12 @@ public class Gameplay : MonoBehaviour {
     public int currIndex;
     public GameObject currCheckpoint;
 
+    public GameObject rig;
+
+    public GameObject plane;
+
+    public GameObject displays;
+
     public GameObject arrow;
 
     public Text gameTimer;
@@ -19,6 +25,8 @@ public class Gameplay : MonoBehaviour {
 
     public Material nextMaterial;
     public Material hitMaterial;
+
+    public bool gameOver = false;
 
     private LineRenderer line;
 
@@ -103,7 +111,25 @@ public class Gameplay : MonoBehaviour {
         Debug.Log(numCheckpoints);
 
         this.transform.position = checkPoint.transform.parent.GetChild(1).transform.position;
+
+
+
+        //add offset for 3rd person
+        //Vector3 offset = new Vector3(0,5.0f,-20.0f);
+
+
+        //rig.transform.position = rig.transform.position + offset;
+        //displays.transform.position = displays.transform.position + offset;
+
         
+
+
+
+
+
+
+
+
         Vector3 child1Pos = checkPoint.transform.parent.GetChild(1).transform.position;
         Vector3 child2Pos = checkPoint.transform.parent.GetChild(2).transform.position;
 
@@ -182,9 +208,8 @@ public class Gameplay : MonoBehaviour {
 
         if (currIndex+1 == numCheckpoints)
         {
-            line.enabled = false;
 
-            Debug.Log("WIN GAME");
+            WinGame();
 
             return;
 
@@ -201,34 +226,69 @@ public class Gameplay : MonoBehaviour {
 
     }
 
-    // Update is called once per frame
-    void Update () {
+    public void WinGame()
+    {
+        gameOver = true;
 
-        gameTime += Time.deltaTime;
+        line.enabled = false;
 
-        gameTimer.text = "Time: \n" + gameTime.ToString() + "s";
+        //Debug.Log("WIN GAME");
 
-        if (countdown)
+        if (gameTime <= 300)
         {
-            Countdown();
 
-            return;
+            countdownTimer.text = "You Win!";
+
+        } else
+        {
+
+            countdownTimer.text = "You Lose!";
         }
 
 
-        //draw the line from the player to the next checkpoint
-        line.SetPosition(0, this.transform.position);
+    }
 
-        //adjust arrow direction
-        Vector3 goal = line.GetPosition(1) - line.GetPosition(0);
+    // Update is called once per frame
+    void Update () {
 
-        //rotate so that z is goal
-        arrow.transform.forward = goal;
+        if (!gameOver)
+        {
 
 
-        float dist = (checkPoint.transform.parent.GetChild(currIndex + 1).gameObject.transform.position - this.transform.position).magnitude;
+            if (gameTime > 300)
+            {
+                WinGame();
 
-        distance.text = "Distance: \n" + dist + "m";
+                return;
+            }
+
+            gameTime += Time.deltaTime;
+
+            gameTimer.text = "Time: \n" + gameTime.ToString() + "s";
+
+            if (countdown)
+            {
+                Countdown();
+
+                return;
+            }
+
+
+            //draw the line from the player to the next checkpoint
+            line.SetPosition(0, this.transform.position);
+
+            //adjust arrow direction
+            Vector3 goal = line.GetPosition(1) - line.GetPosition(0);
+
+            //rotate so that z is goal
+            arrow.transform.forward = goal;
+
+
+            float dist = (checkPoint.transform.parent.GetChild(currIndex + 1).gameObject.transform.position - this.transform.position).magnitude;
+
+            distance.text = "Distance: \n" + dist + "m";
+
+        }
 
 
 	}

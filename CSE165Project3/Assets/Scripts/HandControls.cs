@@ -25,7 +25,7 @@ public class HandControls : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (!GetComponent<Gameplay>().countdown)
+        if (!GetComponent<Gameplay>().gameOver && !GetComponent<Gameplay>().countdown)
         {
 
             controller = new Controller();
@@ -65,7 +65,7 @@ public class HandControls : MonoBehaviour {
                     float speed = leftHand.GrabAngle;
                     speed = speed / (Mathf.PI);
 
-                    transform.Translate(new Vector3(0, 0, speed / 10));
+                    transform.Translate(new Vector3(0, 0, speed / 1));
 
                 }
 
