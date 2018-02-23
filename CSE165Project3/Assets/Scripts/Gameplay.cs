@@ -135,7 +135,7 @@ public class Gameplay : MonoBehaviour {
         currCheckpoint.GetComponent<MeshRenderer>().material = hitMaterial;
         checkPoint.transform.parent.GetChild(2).gameObject.GetComponent<MeshRenderer>().material = nextMaterial;
 
-        checkPoint.transform.parent.GetChild(2).gameObject.GetComponent<AudioSource>().mute = false;
+        //checkPoint.transform.parent.GetChild(2).gameObject.GetComponent<AudioSource>().mute = false;
 
         numCheckpoints = i;
         Debug.Log(numCheckpoints);
@@ -277,6 +277,8 @@ public class Gameplay : MonoBehaviour {
 
             engineAudio.GetComponent<AudioSource>().mute = false;
 
+            checkPoint.transform.parent.GetChild(currIndex + 1).gameObject.GetComponent<AudioSource>().mute = true;
+
 
 
         }
@@ -329,6 +331,8 @@ public class Gameplay : MonoBehaviour {
 
             engineAudio.GetComponent<AudioSource>().mute = true;
 
+            checkPoint.transform.parent.GetChild(currIndex + 1).gameObject.GetComponent<AudioSource>().mute = false;
+
 
         }
         else
@@ -364,8 +368,12 @@ public class Gameplay : MonoBehaviour {
 
         checkPoint.transform.parent.GetChild(currIndex+1).gameObject.GetComponent<MeshRenderer>().material = nextMaterial;
 
-        checkPoint.transform.parent.GetChild(currIndex + 1).gameObject.GetComponent<AudioSource>().mute = false;
+        if (currView == 3)
+        {
 
+            checkPoint.transform.parent.GetChild(currIndex + 1).gameObject.GetComponent<AudioSource>().mute = false;
+
+        }
         line.SetPosition(1, checkPoint.transform.parent.GetChild(currIndex + 1).gameObject.transform.position);
 
 
