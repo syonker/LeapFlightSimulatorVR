@@ -11,6 +11,8 @@ public class HandControls : MonoBehaviour {
     float HandPalmYaw;
     float HandPalmRoll;
 
+    float fistFactor = 1.0f;
+
     public GameObject engineAudio;
 
     private bool changeView = false;
@@ -112,7 +114,7 @@ public class HandControls : MonoBehaviour {
 
 
 
-                    transform.Translate(new Vector3(0, 0, speed / 1));
+                    transform.Translate(new Vector3(0, 0, speed*fistFactor));
 
                 }
 
@@ -131,8 +133,11 @@ public class HandControls : MonoBehaviour {
                     if (rightHand.GrabAngle > ((Mathf.PI) * 0.75f))
                     {
 
-
+                        fistFactor = 3.0f;
                         return;
+                    } else
+                    {
+                        fistFactor = 1.0f;
                     }
 
 
@@ -179,11 +184,11 @@ public class HandControls : MonoBehaviour {
 
                         if (HandPalmYaw > 1.5)
                         {
-                            transform.Rotate(0, 30 * Time.deltaTime, 0);
+                            transform.Rotate(0, 50 * Time.deltaTime, 0);
                         }
                         else if (HandPalmYaw < -0.5)
                         {
-                            transform.Rotate(0, -30 * Time.deltaTime, 0);
+                            transform.Rotate(0, -50 * Time.deltaTime, 0);
                         }
 
                     }

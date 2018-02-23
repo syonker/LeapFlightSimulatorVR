@@ -66,6 +66,9 @@ public class Gameplay : MonoBehaviour {
         countdown = true;
         Countdown();
 
+        //inlucde this to set starting view
+        ChangeView();
+
 	}
 
     void Parse()
@@ -424,6 +427,25 @@ public class Gameplay : MonoBehaviour {
 
         if (!gameOver)
         {
+
+            Quaternion temp = this.transform.localRotation;
+
+            Vector3 tempp = temp.eulerAngles;
+
+            tempp.z = 0;
+
+
+            //fix roll
+            this.transform.localRotation = Quaternion.Euler(tempp);
+
+
+            if (this.transform.position.y < 0)
+            {
+
+                ResetCheckpoint();
+
+            }
+
 
 
             if (gameTime > 300)
