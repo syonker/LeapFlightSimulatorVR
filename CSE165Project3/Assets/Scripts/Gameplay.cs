@@ -34,9 +34,9 @@ public class Gameplay : MonoBehaviour {
 
     public bool countdown;
 
-    private float timeLeft = 3;
+    private float timeLeft = 10;
 
-    private float gameTime = 0;
+    private float gameTime = -10;
 
     // Use this for initialization
     void Start () {
@@ -60,7 +60,7 @@ public class Gameplay : MonoBehaviour {
         float x, y, z;
         int i;
 
-        string path = "Assets/file2.txt";
+        string path = "Assets/file.txt";
 
         StreamReader reader = new StreamReader(path);
 

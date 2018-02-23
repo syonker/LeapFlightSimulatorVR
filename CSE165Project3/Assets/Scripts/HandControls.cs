@@ -164,11 +164,11 @@ public class HandControls : MonoBehaviour {
 
                         if (HandPalmYaw > 1.5)
                         {
-                            transform.Rotate(0, 20 * Time.deltaTime, 0);
+                            transform.Rotate(0, 30 * Time.deltaTime, 0);
                         }
                         else if (HandPalmYaw < -0.5)
                         {
-                            transform.Rotate(0, -20 * Time.deltaTime, 0);
+                            transform.Rotate(0, -30 * Time.deltaTime, 0);
                         }
 
                     }
