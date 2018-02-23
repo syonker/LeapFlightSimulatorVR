@@ -32,6 +32,8 @@ public class Gameplay : MonoBehaviour {
 
     private LineRenderer line;
 
+    private LineRenderer newLine;
+
     public bool countdown;
 
     private float timeLeft = 10;
@@ -64,6 +66,18 @@ public class Gameplay : MonoBehaviour {
 
         StreamReader reader = new StreamReader(path);
 
+        newLine = checkPoint.GetComponent<LineRenderer>();
+
+        //newLine.SetVertexCount(100);
+
+        newLine.positionCount = 100;
+
+        newLine.enabled = true;
+
+        //Color orange = new Color(255, 50, 0);
+
+        newLine.material.color = Color.blue;
+
         for (i = 0; i < 100; i++)
         {
 
@@ -92,6 +106,9 @@ public class Gameplay : MonoBehaviour {
                 newObj.transform.position = new Vector3(x, y, z);
                 newObj.SetActive(true);
 
+                newLine.SetPosition(i, newObj.transform.position);
+
+                newObj.GetComponent<LineRenderer>().enabled = false;
 
 
             }
@@ -109,7 +126,7 @@ public class Gameplay : MonoBehaviour {
         currCheckpoint.GetComponent<MeshRenderer>().material = hitMaterial;
         checkPoint.transform.parent.GetChild(2).gameObject.GetComponent<MeshRenderer>().material = nextMaterial;
 
-        //checkPoint.transform.parent.GetChild(2).gameObject.GetComponent<AudioSource>().mute = false;
+        checkPoint.transform.parent.GetChild(2).gameObject.GetComponent<AudioSource>().mute = false;
 
         numCheckpoints = i;
         Debug.Log(numCheckpoints);
@@ -211,7 +228,7 @@ public class Gameplay : MonoBehaviour {
     public void ChangeView()
     {
 
-        if (currView < 2)
+        if (currView < 3)
         {
             currView++;
         }
@@ -224,7 +241,7 @@ public class Gameplay : MonoBehaviour {
         //nothing
         if (currView == 0)
         {
-
+            /*
             //add offset for 3rd person
             Vector3 offset = new Vector3(0.0f, 0.0f, 0.0f);
 
@@ -235,8 +252,13 @@ public class Gameplay : MonoBehaviour {
 
             rig.transform.position = rig.transform.position - offset;
             displays.transform.position = displays.transform.position - offset;
-
+            */
             plane.SetActive(false);
+
+            displays.SetActive(true);
+
+            newLine.enabled = true;
+            line.enabled = true;
 
 
 
@@ -266,6 +288,28 @@ public class Gameplay : MonoBehaviour {
 
 
         }
+        //just sound
+        else if (currView == 3)
+        {
+
+            //add offset for 3rd person
+            Vector3 offset = new Vector3(0.0f, 0.0f, 0.0f);
+
+            Vector3 shiftBack = -plane.transform.forward;
+            Vector3 shiftUp = plane.transform.up;
+
+            offset = 20.0f * shiftBack + 5.0f * shiftUp;
+
+            rig.transform.position = rig.transform.position - offset;
+            displays.transform.position = displays.transform.position - offset;
+
+            displays.SetActive(false);
+
+            newLine.enabled = false;
+            line.enabled = false;
+
+
+        }
         else
         {
 
@@ -292,11 +336,11 @@ public class Gameplay : MonoBehaviour {
         currIndex++;
         currCheckpoint = checkPoint.transform.parent.GetChild(currIndex).gameObject;
         currCheckpoint.GetComponent<MeshRenderer>().material = hitMaterial;
-        //currCheckpoint.GetComponent<AudioSource>().mute = true;
+        currCheckpoint.GetComponent<AudioSource>().mute = true;
 
         checkPoint.transform.parent.GetChild(currIndex+1).gameObject.GetComponent<MeshRenderer>().material = nextMaterial;
 
-        //checkPoint.transform.parent.GetChild(currIndex + 1).gameObject.GetComponent<AudioSource>().mute = false;
+        checkPoint.transform.parent.GetChild(currIndex + 1).gameObject.GetComponent<AudioSource>().mute = false;
 
         line.SetPosition(1, checkPoint.transform.parent.GetChild(currIndex + 1).gameObject.transform.position);
 
@@ -341,7 +385,11 @@ public class Gameplay : MonoBehaviour {
 
             gameTime += Time.deltaTime;
 
-            gameTimer.text = "Time: \n" + gameTime.ToString() + "s";
+            if (gameTime >= 0) {
+
+                gameTimer.text = "Time: \n" + gameTime.ToString() + "s";
+
+            }
 
             if (countdown)
             {
