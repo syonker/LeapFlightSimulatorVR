@@ -77,7 +77,7 @@ public class Gameplay : MonoBehaviour {
         float x, y, z;
         int i;
 
-        string path = "Assets/file2.txt";
+        string path = "Assets/CompetitionFile";
 
         StreamReader reader = new StreamReader(path);
 
