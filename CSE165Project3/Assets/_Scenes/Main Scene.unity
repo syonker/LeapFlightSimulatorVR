@@ -3920,6 +3920,9 @@ MonoBehaviour:
   currIndex: 0
   currCheckpoint: {fileID: 0}
   countDownCanvas: {fileID: 273441985}
+  distanceCanvas: {fileID: 370100089}
+  timerCanvas: {fileID: 756010165}
+  planeCanvas: {fileID: 128675635}
   countdownAudio: {fileID: 771518653}
   cheerAudio: {fileID: 2009617109}
   checkpointAudio: {fileID: 1241624164}

@@ -12,6 +12,9 @@ public class Gameplay : MonoBehaviour {
     public GameObject currCheckpoint;
 
     public GameObject countDownCanvas;
+    public GameObject distanceCanvas;
+    public GameObject timerCanvas;
+    public GameObject planeCanvas;
 
     public GameObject countdownAudio;
     public GameObject cheerAudio;
@@ -71,7 +74,7 @@ public class Gameplay : MonoBehaviour {
         float x, y, z;
         int i;
 
-        string path = "Assets/file2.txt";
+        string path = "Assets/file.txt";
 
         StreamReader reader = new StreamReader(path);
 
@@ -270,7 +273,12 @@ public class Gameplay : MonoBehaviour {
             */
             plane.SetActive(false);
 
-            displays.SetActive(true);
+            //displays.SetActive(true);
+
+            planeCanvas.SetActive(true);
+            distanceCanvas.SetActive(true);
+
+
 
             newLine.enabled = true;
             line.enabled = true;
@@ -322,9 +330,13 @@ public class Gameplay : MonoBehaviour {
             rig.transform.position = rig.transform.position - offset;
             displays.transform.position = displays.transform.position - offset;
 
-            displays.SetActive(false);
+            //displays.SetActive(false);
 
-            countDownCanvas.SetActive(true);
+            planeCanvas.SetActive(false);
+            distanceCanvas.SetActive(false);
+
+
+            //countDownCanvas.SetActive(true);
 
             newLine.enabled = false;
             line.enabled = false;
@@ -389,6 +401,8 @@ public class Gameplay : MonoBehaviour {
 
         if (gameTime <= 300)
         {
+
+            checkPoint.transform.parent.GetChild(currIndex + 1).gameObject.GetComponent<AudioSource>().mute = true;
 
             countdownTimer.text = "You Win!";
 
