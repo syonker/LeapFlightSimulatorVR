@@ -11,6 +11,14 @@ public class Gameplay : MonoBehaviour {
     public int currIndex;
     public GameObject currCheckpoint;
 
+    public GameObject countDownCanvas;
+
+    public GameObject countdownAudio;
+    public GameObject cheerAudio;
+    public GameObject checkpointAudio;
+    public GameObject engineAudio;
+    public GameObject explosionAudio;
+
     private int currView = 0;
 
     public GameObject rig;
@@ -36,6 +44,7 @@ public class Gameplay : MonoBehaviour {
 
     public bool countdown;
 
+    //change back to 10
     private float timeLeft = 10;
 
     private float gameTime = -10;
@@ -62,7 +71,7 @@ public class Gameplay : MonoBehaviour {
         float x, y, z;
         int i;
 
-        string path = "Assets/file.txt";
+        string path = "Assets/file2.txt";
 
         StreamReader reader = new StreamReader(path);
 
@@ -174,8 +183,11 @@ public class Gameplay : MonoBehaviour {
     public void Countdown ()
     {
 
+        engineAudio.GetComponent<AudioSource>().volume = 0;
 
         //countdown = true;
+
+        countdownAudio.GetComponent<AudioSource>().mute = false;
 
         timeLeft -= Time.deltaTime;
 
@@ -185,6 +197,7 @@ public class Gameplay : MonoBehaviour {
         {
 
             countdown = false;
+            countdownAudio.GetComponent<AudioSource>().mute = true;
             timeLeft = 3;
             countdownTimer.text = "";
 
@@ -196,6 +209,8 @@ public class Gameplay : MonoBehaviour {
 
     public void ResetCheckpoint()
     {
+
+        explosionAudio.GetComponent<AudioSource>().Play();
 
         this.transform.position = currCheckpoint.transform.position;
 
@@ -260,6 +275,8 @@ public class Gameplay : MonoBehaviour {
             newLine.enabled = true;
             line.enabled = true;
 
+            engineAudio.GetComponent<AudioSource>().mute = false;
+
 
 
         }
@@ -305,8 +322,12 @@ public class Gameplay : MonoBehaviour {
 
             displays.SetActive(false);
 
+            countDownCanvas.SetActive(true);
+
             newLine.enabled = false;
             line.enabled = false;
+
+            engineAudio.GetComponent<AudioSource>().mute = true;
 
 
         }
@@ -332,6 +353,9 @@ public class Gameplay : MonoBehaviour {
             return;
 
         }
+
+
+        checkpointAudio.GetComponent<AudioSource>().Play();
 
         currIndex++;
         currCheckpoint = checkPoint.transform.parent.GetChild(currIndex).gameObject;
@@ -359,6 +383,10 @@ public class Gameplay : MonoBehaviour {
         {
 
             countdownTimer.text = "You Win!";
+
+            cheerAudio.GetComponent<AudioSource>().Play();
+
+            engineAudio.GetComponent<AudioSource>().mute = true;
 
         } else
         {

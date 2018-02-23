@@ -11,6 +11,8 @@ public class HandControls : MonoBehaviour {
     float HandPalmYaw;
     float HandPalmRoll;
 
+    public GameObject engineAudio;
+
     private bool changeView = false;
 
     //float HandWristRot;
@@ -96,6 +98,19 @@ public class HandControls : MonoBehaviour {
                     //between 0 and 1
                     float speed = leftHand.GrabAngle;
                     speed = speed / (Mathf.PI);
+
+                    float pitch = speed / 6.0f;
+
+                    if (speed < 0.5f)
+                    {
+                        pitch = -pitch;
+                    }
+
+                    engineAudio.GetComponent<AudioSource>().pitch = pitch;
+
+                    engineAudio.GetComponent<AudioSource>().volume = 1;
+
+
 
                     transform.Translate(new Vector3(0, 0, speed / 1));
 
